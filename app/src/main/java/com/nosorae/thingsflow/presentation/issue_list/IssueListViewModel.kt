@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nosorae.thingsflow.common.Constants.LOG_TAG
 import com.nosorae.thingsflow.common.Resource
+import com.nosorae.thingsflow.common.SingleLiveData
 import com.nosorae.thingsflow.domain.model.Issue
 import com.nosorae.thingsflow.domain.use_case.GetIssuesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +23,8 @@ class IssueListViewModel @Inject constructor(
     private val _issues = MutableLiveData<List<Issue>>(emptyList())
     val issues: LiveData<List<Issue>> get() = _issues
 
-    private val _errorMessage = MutableLiveData<String>()
+    private val _errorMessage = SingleLiveData<String>()
+    val errorMessage: SingleLiveData<String> get() = _errorMessage
 
 
     init {
@@ -43,6 +45,7 @@ class IssueListViewModel @Inject constructor(
                     }
                     is Resource.Error -> {
                         Log.e(LOG_TAG, "ViewModel : \n ${result.message}")
+                        _errorMessage.value = result.message
                     }
                 }
             }.launchIn(viewModelScope)

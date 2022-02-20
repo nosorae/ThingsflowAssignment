@@ -33,7 +33,10 @@ class IssueListActivity : AppCompatActivity() {
         initSearchTextView()
 
         observeIssuesData()
+
     }
+
+    //--------------------------------------------------------------------
 
     private fun initRecyclerView() = with(binding) {
         rvIssueList.apply {
@@ -55,6 +58,8 @@ class IssueListActivity : AppCompatActivity() {
         }.show(supportFragmentManager, null)
     }
 
+    //--------------------------------------------------------------------
+
     private fun observeIssuesData() {
         viewModel.issues.observe(this) { issues ->
             rvAdapter.clear()
@@ -65,7 +70,6 @@ class IssueListActivity : AppCompatActivity() {
             }
         }
     }
-
     private fun insertRvItemsWhenUpper5(issues: List<Issue>) {
         issues.forEachIndexed { index, issue ->
             if (index == 5) {
@@ -79,7 +83,6 @@ class IssueListActivity : AppCompatActivity() {
             }
         }
     }
-
     private fun insertThingsFlowImageRvItem() {
         rvAdapter.add(
             ThingsFlowImageRvItem() {
@@ -87,8 +90,6 @@ class IssueListActivity : AppCompatActivity() {
             }
         )
     }
-
-
     private fun openThingsFlowHomePageByWebBrowser() {
         Intent(
             Intent.ACTION_VIEW,
@@ -97,7 +98,6 @@ class IssueListActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-
     private fun startIssueDetailActivity(issue: Issue) {
         Intent(
             this,
@@ -107,6 +107,17 @@ class IssueListActivity : AppCompatActivity() {
                 intent.putExtra(PARAM_ISSUE_MODEL, issue)
                 startActivity(intent)
             }
+    }
+
+    //--------------------------------------------------------------------
+
+    private fun observeErrorData() {
+        viewModel.errorMessage.observe(this) { message ->
+            showErrorMessageDialog(message)
+        }
+    }
+    private fun showErrorMessageDialog(message: String) {
+
     }
 
 }
