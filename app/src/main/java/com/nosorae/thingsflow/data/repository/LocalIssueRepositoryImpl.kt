@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.Flow
 class LocalIssueRepositoryImpl(
     private val dao: IssueDao
 ): LocalIssueRepository {
-    override fun getIssues(): Flow<List<Issue>> {
-        return dao.getIssues()
+    override fun loadIssues(): Flow<List<Issue>> {
+        return dao.loadIssues()
     }
 
     override suspend fun insertIssues(issues: List<Issue>) {

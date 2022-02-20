@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 interface IssueDao {
 
     @Query("SELECT * FROM issue")
-    fun getIssues(): Flow<List<Issue>>
+    fun loadIssues(): Flow<List<Issue>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertIssues(issues: List<Issue>)
