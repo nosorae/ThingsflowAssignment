@@ -78,8 +78,8 @@ class IssueListViewModel @Inject constructor(
             .apply()
     }
 
-    fun getPrefString(key: String, defaultValue: String) {
-        pref.getString(key, defaultValue).toString()
+    fun getPrefString(key: String, defaultValue: String): String {
+        return pref.getString(key, defaultValue).toString()
     }
 
 

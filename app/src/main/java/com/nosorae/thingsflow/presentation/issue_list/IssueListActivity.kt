@@ -50,9 +50,7 @@ class IssueListActivity : AppCompatActivity() {
         title = getString(R.string.app_name)
         binding.tvSearch.text =
             "${viewModel.getPrefString(PREF_ORG, "Search by org")}/${
-                viewModel.getPrefString(
-                    PREF_REPO, "repo")
-            }"
+                viewModel.getPrefString(PREF_REPO, "repo")}"
     }
 
     //--------------------------------------------------------------------
@@ -73,6 +71,7 @@ class IssueListActivity : AppCompatActivity() {
     private fun showSearchInputDialogFragment() {
         SearchInputDialogFragment { org, repo ->
             viewModel.run {
+                viewModel.savePrefString(PREF_ORG, org)
                 viewModel.savePrefString(PREF_REPO, repo)
                 getIssues(org, repo)
             }
