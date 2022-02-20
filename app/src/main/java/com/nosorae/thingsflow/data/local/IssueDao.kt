@@ -17,4 +17,8 @@ interface IssueDao {
     suspend fun insertIssues(issues: List<Issue>)
 
 
+    @Query("DELETE FROM issue")
+    suspend fun deleteAllIssues()
+
+
 }

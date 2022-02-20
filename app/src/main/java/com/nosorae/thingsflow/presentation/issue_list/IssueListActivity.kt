@@ -38,6 +38,7 @@ class IssueListActivity : AppCompatActivity() {
 
         observeIssuesData()
         observeErrorData()
+        observeCachedIssuesData()
     }
 
     //--------------------------------------------------------------------
@@ -59,7 +60,7 @@ class IssueListActivity : AppCompatActivity() {
         SearchInputDialogFragment { org, repo ->
             viewModel.run {
                 lastOrg = org
-                lastRepo = repo // TODO 요청 성공하면 바뀐다. 더 좋은 방법을 찾을 것
+                lastRepo = repo // TODO 프레퍼런스로 대체할 것
                 getIssues(org, repo)
             }
         }.show(supportFragmentManager, null)
@@ -70,22 +71,34 @@ class IssueListActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun observeIssuesData() {
         viewModel.issues.observe(this) { issues ->
-            binding.tvSearch.text = "${viewModel.lastOrg}/${viewModel.lastRepo}"
+            binding.tvSearch.text = "${viewModel.lastOrg}/${viewModel.lastRepo}" // TODO 프레퍼런스로 대체할 것
             rvAdapter.clear()
-            issues.forEachIndexed { index, issue ->
-                if (index == 4) {
-                    insertThingsFlowImageRvItem()
-                } else {
-                    rvAdapter.add(
-                        IssueRvItem(issue) { i ->
-                            startIssueDetailActivity(i)
-                        }
-                    )
-                }
-            }
-            if (issues.size < 5) {
+            handleIssues(issues)
+            // TODO 삭제 로직 추가할 것
+            viewModel.insertIssues(issues)
+        }
+    }
+
+    private fun observeCachedIssuesData() {
+        viewModel.cachedIssues.observe(this) { issues ->
+            handleIssues(issues)
+        }
+    }
+    private fun handleIssues(issues: List<Issue>) {
+        rvAdapter.clear()
+        issues.forEachIndexed { index, issue ->
+            if (index == 4) {
                 insertThingsFlowImageRvItem()
+            } else {
+                rvAdapter.add(
+                    IssueRvItem(issue) { i ->
+                        startIssueDetailActivity(i)
+                    }
+                )
             }
+        }
+        if (issues.size < 5) {
+            insertThingsFlowImageRvItem()
         }
     }
 
@@ -130,5 +143,8 @@ class IssueListActivity : AppCompatActivity() {
             message = message
         ).show(supportFragmentManager, null)
     }
+
+
+
 
 }
