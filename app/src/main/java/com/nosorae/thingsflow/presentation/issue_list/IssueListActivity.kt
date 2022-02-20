@@ -3,13 +3,16 @@ package com.nosorae.thingsflow.presentation.issue_list
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nosorae.thingsflow.common.Constants.THINGS_FLOW_HOME_PAGE_URL
 import com.nosorae.thingsflow.databinding.ActivityIssueListBinding
+import com.nosorae.thingsflow.domain.model.Issue
+import com.nosorae.thingsflow.presentation.dialogs.search.SearchInputDialogFragment
 import com.nosorae.thingsflow.presentation.issue_detail.IssueDetailActivity
+import com.nosorae.thingsflow.presentation.issue_list.rv_item.IssueRvItem
+import com.nosorae.thingsflow.presentation.issue_list.rv_item.ThingsFlowImageRvItem
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,6 +27,11 @@ class IssueListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityIssueListBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        initRecyclerView()
+        initSearchTextView()
+
+        observeIssuesData()
     }
 
     private fun initRecyclerView() = with(binding) {
@@ -35,13 +43,47 @@ class IssueListActivity : AppCompatActivity() {
 
     private fun initSearchTextView() = with(binding) {
         tvSearch.setOnClickListener {
+            showSearchInputDialogFragment()
+        }
+    }
+    private fun showSearchInputDialogFragment() {
+        SearchInputDialogFragment { org, repo ->
+            viewModel.getIssues(org, repo)
+        }.show(supportFragmentManager, null)
+    }
 
+    private fun observeIssuesData() {
+        viewModel.issues.observe(this) { issues ->
+            if (issues.size > 5) {
+                insertRvItemsWhenUpper5(issues)
+            } else {
+                insertThingsFlowImageRvItem()
+            }
         }
     }
 
-    private fun showSearchInputDialogFragment() {
-
+    private fun insertRvItemsWhenUpper5(issues: List<Issue>) {
+        issues.forEachIndexed { index, issue ->
+            if (index == 5) {
+                insertThingsFlowImageRvItem()
+            } else {
+                rvAdapter.add(
+                    IssueRvItem(issue) { issue ->
+                        startIssueDetailActivity(issue)
+                    }
+                )
+            }
+        }
     }
+
+    private fun insertThingsFlowImageRvItem() {
+        rvAdapter.add(
+            ThingsFlowImageRvItem() {
+                openThingsFlowHomePageByWebBrowser()
+            }
+        )
+    }
+
 
     private fun openThingsFlowHomePageByWebBrowser() {
         Intent(
