@@ -66,24 +66,19 @@ class IssueListActivity : AppCompatActivity() {
     private fun observeIssuesData() {
         viewModel.issues.observe(this) { issues ->
             rvAdapter.clear()
-            if (issues.size > 5) {
-                insertRvItemsWhenUpper5(issues)
-            } else {
-                insertThingsFlowImageRvItem()
+            issues.forEachIndexed { index, issue ->
+                if (index == 4) {
+                    insertThingsFlowImageRvItem()
+                } else {
+                    rvAdapter.add(
+                        IssueRvItem(issue) { issue ->
+                            startIssueDetailActivity(issue)
+                        }
+                    )
+                }
             }
-        }
-    }
-
-    private fun insertRvItemsWhenUpper5(issues: List<Issue>) {
-        issues.forEachIndexed { index, issue ->
-            if (index == 5) {
+            if (issues.size < 5) {
                 insertThingsFlowImageRvItem()
-            } else {
-                rvAdapter.add(
-                    IssueRvItem(issue) { issue ->
-                        startIssueDetailActivity(issue)
-                    }
-                )
             }
         }
     }
