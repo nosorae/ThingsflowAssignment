@@ -1,10 +1,8 @@
 package com.nosorae.thingsflow.presentation.issue_list
 
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nosorae.thingsflow.common.Constants.LOG_TAG
 import com.nosorae.thingsflow.common.Resource
 import com.nosorae.thingsflow.common.SingleLiveData
 import com.nosorae.thingsflow.domain.model.Issue
@@ -54,7 +52,6 @@ class IssueListViewModel @Inject constructor(
                         // TODO 추가 과제까지 완료 시 로딩 뷰도 추가 예정
                     }
                     is Resource.Error -> {
-                        Log.e(LOG_TAG, "ViewModel : \n ${result.message}")
                         _errorMessage.value = result.message
                     }
                 }

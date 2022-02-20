@@ -1,7 +1,5 @@
 package com.nosorae.thingsflow.domain.use_case
 
-import android.util.Log
-import com.nosorae.thingsflow.common.Constants.LOG_TAG
 import com.nosorae.thingsflow.common.Resource
 import com.nosorae.thingsflow.common.parseErrorBody
 import com.nosorae.thingsflow.data.remote.dto.toIssue
