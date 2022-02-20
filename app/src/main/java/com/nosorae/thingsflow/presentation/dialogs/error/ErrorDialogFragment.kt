@@ -1,5 +1,6 @@
 package com.nosorae.thingsflow.presentation.dialogs.error
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,9 +31,11 @@ class ErrorDialogFragment(
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initErrorMessageTextView(dialogFragmentErrorBinding: DialogFragmentErrorBinding) =
         with(dialogFragmentErrorBinding) {
-            tvErrorMessage.text = message
+            tvErrorMessage.text = "message\n" +
+                    "org/repo 를 다시 정확히 입력해주십시오!"
         }
 
 

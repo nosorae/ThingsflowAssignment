@@ -1,10 +1,14 @@
 package com.nosorae.thingsflow.domain.model
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
+@Entity
 data class Issue(
+    @PrimaryKey val id: Int,
     val body: String? = "",
     val number: Int? = -1,
     val title: String? = "",

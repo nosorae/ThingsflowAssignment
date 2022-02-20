@@ -66,6 +66,7 @@ data class IssueDto(
 
 fun IssueDto.toIssue(): Issue {
     return Issue(
+        id = id,
         body = body,
         number = number,
         title = title,

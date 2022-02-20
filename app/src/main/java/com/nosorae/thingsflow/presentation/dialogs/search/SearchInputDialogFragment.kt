@@ -1,7 +1,6 @@
 package com.nosorae.thingsflow.presentation.dialogs.search
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nosorae.thingsflow.R
 import com.nosorae.thingsflow.common.Constants.PARAM_ISSUE_MODEL
+import com.nosorae.thingsflow.common.Constants.PREF_ORG
+import com.nosorae.thingsflow.common.Constants.PREF_REPO
 import com.nosorae.thingsflow.common.Constants.THINGS_FLOW_HOME_PAGE_URL
 import com.nosorae.thingsflow.databinding.ActivityIssueListBinding
 import com.nosorae.thingsflow.domain.model.Issue
@@ -31,13 +33,26 @@ class IssueListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityIssueListBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        title = getString(R.string.app_name)
+
+
+        initTexts()
 
         initRecyclerView()
         initSearchTextView()
 
         observeIssuesData()
         observeErrorData()
+        observeCachedIssuesData()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun initTexts() {
+        title = getString(R.string.app_name)
+        binding.tvSearch.text =
+            "${viewModel.getPrefString(PREF_ORG, "Search by org")}/${
+                viewModel.getPrefString(
+                    PREF_REPO, "repo")
+            }"
     }
 
     //--------------------------------------------------------------------
@@ -58,8 +73,7 @@ class IssueListActivity : AppCompatActivity() {
     private fun showSearchInputDialogFragment() {
         SearchInputDialogFragment { org, repo ->
             viewModel.run {
-                lastOrg = org
-                lastRepo = repo // TODO 요청 성공하면 바뀐다. 더 좋은 방법을 찾을 것
+                viewModel.savePrefString(PREF_REPO, repo)
                 getIssues(org, repo)
             }
         }.show(supportFragmentManager, null)
@@ -70,28 +84,38 @@ class IssueListActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun observeIssuesData() {
         viewModel.issues.observe(this) { issues ->
-            binding.tvSearch.text = "${viewModel.lastOrg}/${viewModel.lastRepo}\norg/repo 를 다시 정확히 입력해주십시오!"
-            rvAdapter.clear()
-            issues.forEachIndexed { index, issue ->
-                if (index == 4) {
-                    insertThingsFlowImageRvItem()
-                } else {
-                    rvAdapter.add(
-                        IssueRvItem(issue) { i ->
-                            startIssueDetailActivity(i)
-                        }
-                    )
-                }
-            }
-            if (issues.size < 5) {
+            handleIssues(issues)
+            viewModel.clearAndInsertIssues(issues)
+        }
+    }
+
+    private fun observeCachedIssuesData() {
+        viewModel.cachedIssues.observe(this) { issues ->
+            handleIssues(issues)
+        }
+    }
+
+    private fun handleIssues(issues: List<Issue>) {
+        rvAdapter.clear()
+        issues.forEachIndexed { index, issue ->
+            if (index == 4) {
                 insertThingsFlowImageRvItem()
+            } else {
+                rvAdapter.add(
+                    IssueRvItem(issue) { i ->
+                        startIssueDetailActivity(i)
+                    }
+                )
             }
+        }
+        if (issues.size < 5) {
+            insertThingsFlowImageRvItem()
         }
     }
 
     private fun insertThingsFlowImageRvItem() {
         rvAdapter.add(
-            ThingsFlowImageRvItem() {
+            ThingsFlowImageRvItem {
                 openThingsFlowHomePageByWebBrowser()
             }
         )
@@ -122,6 +146,8 @@ class IssueListActivity : AppCompatActivity() {
     private fun observeErrorData() {
         viewModel.errorMessage.observe(this) { message ->
             showErrorMessageDialog(message)
+            rvAdapter.clear()
+            viewModel.loadIssues()
         }
     }
 
@@ -130,5 +156,6 @@ class IssueListActivity : AppCompatActivity() {
             message = message
         ).show(supportFragmentManager, null)
     }
+
 
 }

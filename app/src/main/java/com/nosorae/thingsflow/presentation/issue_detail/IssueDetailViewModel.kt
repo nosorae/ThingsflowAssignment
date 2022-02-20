@@ -14,7 +14,6 @@ import javax.inject.Inject
 @HiltViewModel
 class IssueDetailViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
-    // TODO 로컬 저장 유스케이스
 ): ViewModel() {
 
     private val _issueData = MutableLiveData<Issue?>(null)

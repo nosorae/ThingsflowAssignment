@@ -3,7 +3,6 @@ package com.nosorae.thingsflow.data.repository
 import com.nosorae.thingsflow.data.remote.IssueApi
 import com.nosorae.thingsflow.data.remote.dto.IssueDto
 import com.nosorae.thingsflow.domain.repository.RemoteIssueRepository
-import javax.inject.Inject
 
 class RemoteIssueRepositoryImpl (
     private val api: IssueApi
