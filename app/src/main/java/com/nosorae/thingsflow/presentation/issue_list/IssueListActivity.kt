@@ -6,10 +6,12 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.nosorae.thingsflow.R
 import com.nosorae.thingsflow.common.Constants.PARAM_ISSUE_MODEL
 import com.nosorae.thingsflow.common.Constants.THINGS_FLOW_HOME_PAGE_URL
 import com.nosorae.thingsflow.databinding.ActivityIssueListBinding
 import com.nosorae.thingsflow.domain.model.Issue
+import com.nosorae.thingsflow.presentation.dialogs.error.ErrorDialogFragment
 import com.nosorae.thingsflow.presentation.dialogs.search.SearchInputDialogFragment
 import com.nosorae.thingsflow.presentation.issue_detail.IssueDetailActivity
 import com.nosorae.thingsflow.presentation.issue_list.rv_item.IssueRvItem
@@ -28,12 +30,13 @@ class IssueListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityIssueListBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        title = getString(R.string.app_name)
 
         initRecyclerView()
         initSearchTextView()
 
         observeIssuesData()
-
+        observeErrorData()
     }
 
     //--------------------------------------------------------------------
@@ -70,6 +73,7 @@ class IssueListActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun insertRvItemsWhenUpper5(issues: List<Issue>) {
         issues.forEachIndexed { index, issue ->
             if (index == 5) {
@@ -83,6 +87,7 @@ class IssueListActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun insertThingsFlowImageRvItem() {
         rvAdapter.add(
             ThingsFlowImageRvItem() {
@@ -90,6 +95,7 @@ class IssueListActivity : AppCompatActivity() {
             }
         )
     }
+
     private fun openThingsFlowHomePageByWebBrowser() {
         Intent(
             Intent.ACTION_VIEW,
@@ -98,6 +104,7 @@ class IssueListActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
     private fun startIssueDetailActivity(issue: Issue) {
         Intent(
             this,
@@ -116,8 +123,11 @@ class IssueListActivity : AppCompatActivity() {
             showErrorMessageDialog(message)
         }
     }
-    private fun showErrorMessageDialog(message: String) {
 
+    private fun showErrorMessageDialog(message: String) {
+        ErrorDialogFragment(
+            message = message
+        ).show(supportFragmentManager, null)
     }
 
 }

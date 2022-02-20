@@ -2,4 +2,5 @@
     <string name="app_name">AndroidAssignment</string>
     
     <string name="issue_list_search_description">Search by org, repo</string>
+    <string name="error_ok">확인</string>
 </resources>
