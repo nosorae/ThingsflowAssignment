@@ -60,11 +60,7 @@ data class IssueDto(
     @SerializedName("url")
     val url: String,
     @SerializedName("user")
-    val user: User,
-    @SerializedName("message")
-    val message: String? = null,
-    @SerializedName("documentation_url")
-    val documentation_url: String? = null
+    val user: User
 )
 
 
