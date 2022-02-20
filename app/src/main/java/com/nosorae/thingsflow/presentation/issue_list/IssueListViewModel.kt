@@ -40,13 +40,9 @@ class IssueListViewModel @Inject constructor(
     private val _cachedIssues = SingleLiveData<List<Issue>>()
     val cachedIssues: SingleLiveData<List<Issue>> get() = _cachedIssues
 
-    var lastOrg = "Search by org"
-    var lastRepo = "repo"
-
 
     init {
-        lastOrg = pref.getString(PREF_ORG, "Search by org").toString()
-        lastRepo = pref.getString(PREF_REPO, "repo").toString()
+        loadIssues()
     }
 
     fun getIssues(org: String, repo: String) {
@@ -71,7 +67,7 @@ class IssueListViewModel @Inject constructor(
 
     fun clearAndInsertIssues(issues: List<Issue>) {
         viewModelScope.launch {
-            //deleteIssuesUseCase()
+            deleteIssuesUseCase()
             insertIssuesUseCase(issues)
         }
     }
@@ -87,6 +83,10 @@ class IssueListViewModel @Inject constructor(
         pref.edit()
             .putString(key, value)
             .apply()
+    }
+
+    fun getPrefString(key: String, defaultValue: String) {
+        pref.getString(key, defaultValue).toString()
     }
 
 

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nosorae.thingsflow.R
 import com.nosorae.thingsflow.common.Constants.PARAM_ISSUE_MODEL
+import com.nosorae.thingsflow.common.Constants.PREF_ORG
 import com.nosorae.thingsflow.common.Constants.PREF_REPO
 import com.nosorae.thingsflow.common.Constants.THINGS_FLOW_HOME_PAGE_URL
 import com.nosorae.thingsflow.databinding.ActivityIssueListBinding
@@ -44,9 +45,14 @@ class IssueListActivity : AppCompatActivity() {
         observeCachedIssuesData()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initTexts() {
         title = getString(R.string.app_name)
-        binding.tvSearch.text = "${viewModel.lastOrg}/${viewModel.lastRepo}"
+        binding.tvSearch.text =
+            "${viewModel.getPrefString(PREF_ORG, "Search by org")}/${
+                viewModel.getPrefString(
+                    PREF_REPO, "repo")
+            }"
     }
 
     //--------------------------------------------------------------------
@@ -78,10 +84,8 @@ class IssueListActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun observeIssuesData() {
         viewModel.issues.observe(this) { issues ->
-            rvAdapter.clear()
             handleIssues(issues)
             viewModel.clearAndInsertIssues(issues)
-            //viewModel.insertIssues(issues)
         }
     }
 
@@ -90,6 +94,7 @@ class IssueListActivity : AppCompatActivity() {
             handleIssues(issues)
         }
     }
+
     private fun handleIssues(issues: List<Issue>) {
         rvAdapter.clear()
         issues.forEachIndexed { index, issue ->
@@ -140,7 +145,7 @@ class IssueListActivity : AppCompatActivity() {
 
     private fun observeErrorData() {
         viewModel.errorMessage.observe(this) { message ->
-            showErrorMessageDialog(message) // 인터넷이 안 될때의 에러메시지도 함께 가고 있습니다.
+            showErrorMessageDialog(message)
             rvAdapter.clear()
             viewModel.loadIssues()
         }
@@ -151,8 +156,6 @@ class IssueListActivity : AppCompatActivity() {
             message = message
         ).show(supportFragmentManager, null)
     }
-
-
 
 
 }
