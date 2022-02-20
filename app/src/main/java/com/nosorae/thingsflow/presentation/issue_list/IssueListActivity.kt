@@ -115,7 +115,7 @@ class IssueListActivity : AppCompatActivity() {
 
     private fun insertThingsFlowImageRvItem() {
         rvAdapter.add(
-            ThingsFlowImageRvItem() {
+            ThingsFlowImageRvItem {
                 openThingsFlowHomePageByWebBrowser()
             }
         )

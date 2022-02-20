@@ -1,13 +1,10 @@
 package com.nosorae.thingsflow.presentation.issue_detail
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.nosorae.thingsflow.R
 import com.nosorae.thingsflow.databinding.ActivityIssueDetailBinding
-import com.nosorae.thingsflow.databinding.ActivityIssueListBinding
-import com.nosorae.thingsflow.presentation.issue_list.IssueListViewModel
 
 class IssueDetailActivity : AppCompatActivity() {
 

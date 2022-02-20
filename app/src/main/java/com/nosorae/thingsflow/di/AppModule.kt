@@ -95,6 +95,8 @@ object AppModule {
     }
 
 
+    //--------------------------------------------------------------------
+
     @Provides
     @Singleton
     fun providePreferences(app: Application): SharedPreferences {

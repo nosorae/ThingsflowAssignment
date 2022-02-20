@@ -2,13 +2,9 @@ package com.nosorae.thingsflow.presentation.issue_list
 
 import android.content.SharedPreferences
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nosorae.thingsflow.common.Constants.LOG_TAG
-import com.nosorae.thingsflow.common.Constants.PREF_ORG
-import com.nosorae.thingsflow.common.Constants.PREF_REPO
 import com.nosorae.thingsflow.common.Resource
 import com.nosorae.thingsflow.common.SingleLiveData
 import com.nosorae.thingsflow.domain.model.Issue

@@ -29,10 +29,8 @@ class GetIssuesUseCase @Inject constructor(
             }))
         } catch (e: HttpException) {
             val errorMessage = e.parseErrorBody()
-            Log.e(LOG_TAG, "parseErrorBody in UseCase : ${errorMessage}")
             emit(Resource.Error(message = errorMessage))
         } catch (e: IOException) {
-            Log.e(LOG_TAG, "IOException")
             emit(Resource.Error(message = "서버와 연결이 되지 않습니다. 인터넷 연결을 확인해 주세요"))
         }
     }
