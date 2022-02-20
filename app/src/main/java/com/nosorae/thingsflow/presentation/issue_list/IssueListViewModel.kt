@@ -31,16 +31,16 @@ class IssueListViewModel @Inject constructor(
                 when(result) {
                     is Resource.Success -> {
                         result.data?.let { list ->
-                            Log.d("getIssues", "$list")
+                            Log.e("getIssues", "$list")
                             _issues.value = list
                         }
                     }
                     is Resource.Loading -> {
-                        Log.d("getIssues", "loading")
+                        Log.e("getIssues", "loading")
                         // TODO 추가 과제까지 완료 시 로딩 뷰도 추가 예정
                     }
                     is Resource.Error -> {
-                        Log.d("getIssues", "error")
+                        Log.e("getIssues", "error")
                     }
                 }
             }.launchIn(viewModelScope)
