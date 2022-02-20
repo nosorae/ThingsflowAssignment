@@ -3,6 +3,7 @@ package com.nosorae.thingsflow.domain.use_case
 import android.util.Log
 import com.nosorae.thingsflow.common.Constants.LOG_TAG
 import com.nosorae.thingsflow.common.Resource
+import com.nosorae.thingsflow.common.parseErrorBody
 import com.nosorae.thingsflow.data.remote.dto.toIssue
 import com.nosorae.thingsflow.domain.model.Issue
 import com.nosorae.thingsflow.domain.repository.RemoteIssueRepository
@@ -27,10 +28,11 @@ class GetIssuesUseCase @Inject constructor(
                 dto.toIssue()
             }))
         } catch (e: HttpException) {
-            Log.e(LOG_TAG, "HttpException ${e.localizedMessage}" )
-            emit(Resource.Error(message = e.localizedMessage ?: "예상치 못한 에러 발생"))
+            val errorMessage = e.parseErrorBody()
+            Log.e(LOG_TAG, "parseErrorBody in UseCase : ${errorMessage}")
+            emit(Resource.Error(message = errorMessage))
         } catch (e: IOException) {
-            Log.e(LOG_TAG, "IOException" )
+            Log.e(LOG_TAG, "IOException")
             emit(Resource.Error(message = "서버와 연결이 되지 않습니다. 인터넷 연결을 확인해 주세요"))
         }
     }

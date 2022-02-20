@@ -2,7 +2,6 @@ package com.nosorae.thingsflow.data.remote.dto
 
 
 import com.google.gson.annotations.SerializedName
-import com.nosorae.thingsflow.common.NotFoundError
 import com.nosorae.thingsflow.domain.model.Issue
 
 data class IssueDto(
