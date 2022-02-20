@@ -70,7 +70,7 @@ class IssueListActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun observeIssuesData() {
         viewModel.issues.observe(this) { issues ->
-            binding.tvSearch.text = "${viewModel.lastOrg}/${viewModel.lastRepo}\norg/repo 를 다시 정확히 입력해주십시오!"
+            binding.tvSearch.text = "${viewModel.lastOrg}/${viewModel.lastRepo}"
             rvAdapter.clear()
             issues.forEachIndexed { index, issue ->
                 if (index == 4) {
