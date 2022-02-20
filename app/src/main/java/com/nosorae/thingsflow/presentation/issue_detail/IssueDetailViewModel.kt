@@ -21,9 +21,7 @@ class IssueDetailViewModel @Inject constructor(
     val issueData: LiveData<Issue?> = _issueData
 
     init {
-        Log.e(LOG_TAG, "IssueDetailViewModel init 진입")
         savedStateHandle.get<Issue>(PARAM_ISSUE_MODEL)?.let { issue ->
-            Log.e(LOG_TAG, "전달된 데이터 : $issue")
             _issueData.value = issue
         }
     }

@@ -11,9 +11,6 @@ internal fun HttpException.parseErrorBody(): String {
             val errorBody = JSONObject(it)
             val message = errorBody.getString("message")
             val documentation_url = errorBody.getString("documentation_url")
-            Log.e(LOG_TAG, "body : ${errorBody.toString()}")
-            Log.e(LOG_TAG, "message : $message")
-            Log.e(LOG_TAG, "url : $documentation_url")
 
             return "Error message: $message\nReference url: $documentation_url"
         } catch (e: Exception) {

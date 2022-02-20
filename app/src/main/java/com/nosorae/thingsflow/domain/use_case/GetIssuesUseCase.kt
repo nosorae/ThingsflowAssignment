@@ -23,16 +23,13 @@ class GetIssuesUseCase @Inject constructor(
                 org = org,
                 repo = repo
             )
-            Log.e(LOG_TAG, "$issues" )
             emit(Resource.Success(issues.map { dto ->
                 dto.toIssue()
             }))
         } catch (e: HttpException) {
             val errorMessage = e.parseErrorBody()
-            Log.e(LOG_TAG, "parseErrorBody in UseCase : ${errorMessage}")
             emit(Resource.Error(message = errorMessage))
         } catch (e: IOException) {
-            Log.e(LOG_TAG, "IOException")
             emit(Resource.Error(message = "서버와 연결이 되지 않습니다. 인터넷 연결을 확인해 주세요"))
         }
     }

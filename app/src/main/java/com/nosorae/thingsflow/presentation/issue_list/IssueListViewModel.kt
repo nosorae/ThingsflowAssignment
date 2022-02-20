@@ -29,11 +29,6 @@ class IssueListViewModel @Inject constructor(
     var lastOrg = "Search by org"
     var lastRepo = "repo"
 
-
-    init {
-        getIssues("asdf", "asdf")
-    }
-
     fun getIssues(org: String, repo: String) {
         getIssuesUseCase(org, repo)
             .onEach { result ->
@@ -47,7 +42,6 @@ class IssueListViewModel @Inject constructor(
                         // TODO 추가 과제까지 완료 시 로딩 뷰도 추가 예정
                     }
                     is Resource.Error -> {
-                        Log.e(LOG_TAG, "ViewModel : \n ${result.message}")
                         _errorMessage.value = result.message
                     }
                 }
