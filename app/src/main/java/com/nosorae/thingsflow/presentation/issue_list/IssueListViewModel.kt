@@ -26,6 +26,9 @@ class IssueListViewModel @Inject constructor(
     private val _errorMessage = SingleLiveData<String>()
     val errorMessage: SingleLiveData<String> get() = _errorMessage
 
+    val lastOrg = ""
+    val lastRepo = ""
+
 
     init {
         getIssues("asdf", "asdf")

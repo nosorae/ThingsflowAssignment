@@ -56,7 +56,6 @@ class IssueListActivity : AppCompatActivity() {
 
     private fun showSearchInputDialogFragment() {
         SearchInputDialogFragment { org, repo ->
-            // TODO 없는 repository 였을 때 로직 추가, Search Text 도 바꿔야 한다.
             viewModel.getIssues(org, repo)
         }.show(supportFragmentManager, null)
     }
