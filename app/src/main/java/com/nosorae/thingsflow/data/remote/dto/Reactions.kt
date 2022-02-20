@@ -23,5 +23,5 @@ data class Reactions(
     @SerializedName("+1")
     val x1: Int,
     @SerializedName("-1")
-    val x1: Int
+    val x2: Int
 )
