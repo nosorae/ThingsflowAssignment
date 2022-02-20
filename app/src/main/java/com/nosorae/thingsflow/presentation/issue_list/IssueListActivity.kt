@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.nosorae.thingsflow.common.Constants.PARAM_ISSUE_MODEL
 import com.nosorae.thingsflow.common.Constants.THINGS_FLOW_HOME_PAGE_URL
 import com.nosorae.thingsflow.databinding.ActivityIssueListBinding
 import com.nosorae.thingsflow.domain.model.Issue
@@ -46,6 +47,7 @@ class IssueListActivity : AppCompatActivity() {
             showSearchInputDialogFragment()
         }
     }
+
     private fun showSearchInputDialogFragment() {
         SearchInputDialogFragment { org, repo ->
             viewModel.getIssues(org, repo)
@@ -54,6 +56,7 @@ class IssueListActivity : AppCompatActivity() {
 
     private fun observeIssuesData() {
         viewModel.issues.observe(this) { issues ->
+            rvAdapter.clear()
             if (issues.size > 5) {
                 insertRvItemsWhenUpper5(issues)
             } else {
@@ -94,13 +97,15 @@ class IssueListActivity : AppCompatActivity() {
         }
     }
 
-    private fun startIssueDetailActivity(number: String) {
+    private fun startIssueDetailActivity(issue: Issue) {
         Intent(
             this,
             IssueDetailActivity::class.java
-        ).also { intent ->
-            startActivity(intent)
-        }
+        )
+            .also { intent ->
+                intent.putExtra(PARAM_ISSUE_MODEL, issue)
+                startActivity(intent)
+            }
     }
 
 }

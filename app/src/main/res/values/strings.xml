@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ThingsflowAssignment</string>
+    <string name="app_name">AndroidAssignment</string>
     
     <string name="issue_list_search_description">Search by org, repo</string>
 </resources>

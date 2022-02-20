@@ -3,9 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/11260/AndroidStudioProjects/ThingsflowAssignment/app/src/main/res/layout/activity_issue_detail.xml" value="0.46111111111111114" />
         <entry key="..\:/Users/11260/AndroidStudioProjects/ThingsflowAssignment/app/src/main/res/layout/activity_issue_list.xml" value="0.20833333333333334" />
         <entry key="..\:/Users/11260/AndroidStudioProjects/ThingsflowAssignment/app/src/main/res/layout/dialog_fragment_search_input.xml" value="0.46111111111111114" />
         <entry key="..\:/Users/11260/AndroidStudioProjects/ThingsflowAssignment/app/src/main/res/layout/rv_item_issue.xml" value="0.5239583333333333" />
+        <entry key="..\:/Users/11260/AndroidStudioProjects/ThingsflowAssignment/app/src/main/res/layout/rv_item_things_flow_image.xml" value="0.5239583333333333" />
         <entry key="..\:/Users/11260/AndroidStudioProjects/ThingsflowAssignment/app/src/main/res/layout/rv_item_thingsflow_image.xml" value="0.5239583333333333" />
       </map>
     </option>

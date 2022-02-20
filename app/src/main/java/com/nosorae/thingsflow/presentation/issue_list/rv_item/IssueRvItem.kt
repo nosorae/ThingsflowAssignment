@@ -10,14 +10,14 @@ import com.xwray.groupie.viewbinding.BindableItem
 
 class IssueRvItem(
     private val data: Issue,
-    private val onClickItem: (String) -> Unit
+    private val onClickItem: (Issue) -> Unit
 ): BindableItem<RvItemIssueBinding>() {
     override fun bind(binding: RvItemIssueBinding, pos: Int) {
         with(binding) {
             tvIssue.text = data.run { "#$number : $title" }
 
             root.setOnClickListener {
-                onClickItem(data.number.toString())
+                onClickItem(data)
             }
         }
 
