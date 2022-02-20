@@ -14,7 +14,7 @@ class IssueRvItem(
 ): BindableItem<RvItemIssueBinding>() {
     override fun bind(binding: RvItemIssueBinding, pos: Int) {
         with(binding) {
-            tvIssue.text = data.run { "#$number : $title" }
+            tvIssue.text = data.run { "#$number: $title" }
 
             root.setOnClickListener {
                 onClickItem(data)

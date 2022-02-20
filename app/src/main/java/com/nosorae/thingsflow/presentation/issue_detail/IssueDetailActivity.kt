@@ -3,6 +3,7 @@ package com.nosorae.thingsflow.presentation.issue_detail
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import com.bumptech.glide.Glide
 import com.nosorae.thingsflow.R
 import com.nosorae.thingsflow.databinding.ActivityIssueDetailBinding
 import com.nosorae.thingsflow.databinding.ActivityIssueListBinding
@@ -16,7 +17,25 @@ class IssueDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityIssueDetailBinding.inflate(layoutInflater)
-        viewModel
-        setContentView(R.layout.activity_issue_detail)
+        setContentView(binding.root)
+
+        observeIssueData()
+    }
+
+    private fun observeIssueData() {
+        viewModel.issueData.observe(this) { data ->
+            with(binding) {
+                data?.let { issue ->
+                    Glide.with(ivAvatar)
+                        .load(issue.avatar_url)
+                        .circleCrop()
+                        .into(ivAvatar)
+
+                    tvLogin.text = issue.login
+                    tvBody.text = issue.body
+                    title = "#${issue.number}"
+                }
+            }
+        }
     }
 }
