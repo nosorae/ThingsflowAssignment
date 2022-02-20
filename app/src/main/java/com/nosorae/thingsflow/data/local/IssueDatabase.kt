@@ -10,4 +10,5 @@ import com.nosorae.thingsflow.domain.model.Issue
 )
 abstract class IssueDatabase: RoomDatabase() {
     abstract val issueDao: IssueDao
+
 }

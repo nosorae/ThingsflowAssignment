@@ -9,4 +9,6 @@ object Constants {
     const val PARAM_ISSUE_MODEL = "param_issue_model"
 
     const val LOG_TAG = "log_tag"
+
+    const val DATABASE_NAME = "issue_db"
 }
