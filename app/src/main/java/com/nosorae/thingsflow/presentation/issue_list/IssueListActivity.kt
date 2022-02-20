@@ -73,6 +73,7 @@ class IssueListActivity : AppCompatActivity() {
             viewModel.run {
                 viewModel.savePrefString(PREF_ORG, org)
                 viewModel.savePrefString(PREF_REPO, repo)
+                initTexts()
                 getIssues(org, repo)
             }
         }.show(supportFragmentManager, null)
