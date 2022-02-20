@@ -76,8 +76,13 @@ dependencies {
 
 
     // Groupie
-    implementation "com.github.lisawray.groupie:groupie:2.10.0"
-    implementation "com.github.lisawray.groupie:groupie-viewbinding:2.10.0"
+    implementation 'com.github.lisawray.groupie:groupie:2.10.0'
+    implementation 'com.github.lisawray.groupie:groupie-viewbinding:2.10.0'
+
+    // Room
+    implementation 'androidx.room:room-runtime:2.4.1'
+    kapt 'androidx.room:room-compiler:2.4.1'
+    implementation 'androidx.room:room-ktx:2.4.1'
 
 
 }
