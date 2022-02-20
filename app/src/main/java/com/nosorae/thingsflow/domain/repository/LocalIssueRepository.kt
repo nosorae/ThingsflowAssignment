@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface LocalIssueRepository {
     fun loadIssues(): Flow<List<Issue>>
     suspend fun insertIssues(issues: List<Issue>)
+    suspend fun deleteIssues()
 }

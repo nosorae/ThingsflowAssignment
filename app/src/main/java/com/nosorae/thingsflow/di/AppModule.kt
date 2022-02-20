@@ -10,6 +10,7 @@ import com.nosorae.thingsflow.data.repository.LocalIssueRepositoryImpl
 import com.nosorae.thingsflow.data.repository.RemoteIssueRepositoryImpl
 import com.nosorae.thingsflow.domain.repository.LocalIssueRepository
 import com.nosorae.thingsflow.domain.repository.RemoteIssueRepository
+import com.nosorae.thingsflow.domain.use_case.DeleteIssuesUseCase
 import com.nosorae.thingsflow.domain.use_case.InsertIssuesUseCase
 import com.nosorae.thingsflow.domain.use_case.LoadIssuesUseCase
 import dagger.Module
@@ -55,6 +56,7 @@ object AppModule {
     //--------------------------------------------------------------------
 
 
+    // TODO Provide 방식 통일 및 모듈 나누기
     @Provides
     @Singleton
     fun provideIssueDatabase(app: Application): IssueDatabase {
@@ -81,6 +83,12 @@ object AppModule {
     @Singleton
     fun provideInsertIssues(repository: LocalIssueRepository): InsertIssuesUseCase {
         return InsertIssuesUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDeleteIssues(repository: LocalIssueRepository): DeleteIssuesUseCase {
+        return DeleteIssuesUseCase(repository)
     }
 
 

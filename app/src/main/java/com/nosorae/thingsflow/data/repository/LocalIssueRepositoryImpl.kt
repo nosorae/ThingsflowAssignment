@@ -5,6 +5,7 @@ import com.nosorae.thingsflow.domain.model.Issue
 import com.nosorae.thingsflow.domain.repository.LocalIssueRepository
 import kotlinx.coroutines.flow.Flow
 
+
 class LocalIssueRepositoryImpl(
     private val dao: IssueDao
 ): LocalIssueRepository {
@@ -14,5 +15,9 @@ class LocalIssueRepositoryImpl(
 
     override suspend fun insertIssues(issues: List<Issue>) {
         dao.insertIssues(issues)
+    }
+
+    override suspend fun deleteIssues() {
+        dao.deleteAllIssues()
     }
 }

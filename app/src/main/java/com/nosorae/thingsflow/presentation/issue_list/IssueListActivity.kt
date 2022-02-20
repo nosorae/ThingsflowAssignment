@@ -74,7 +74,8 @@ class IssueListActivity : AppCompatActivity() {
             binding.tvSearch.text = "${viewModel.lastOrg}/${viewModel.lastRepo}" // TODO 프레퍼런스로 대체할 것
             rvAdapter.clear()
             handleIssues(issues)
-            // TODO 삭제 로직 추가할 것
+
+            viewModel.deleteIssues()
             viewModel.insertIssues(issues)
         }
     }
@@ -134,7 +135,7 @@ class IssueListActivity : AppCompatActivity() {
 
     private fun observeErrorData() {
         viewModel.errorMessage.observe(this) { message ->
-            showErrorMessageDialog(message)
+            showErrorMessageDialog(message) // 인터넷이 안 될때의 에러메시지도 함께 가고 있습니다.
         }
     }
 
