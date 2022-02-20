@@ -1,5 +1,7 @@
 package com.nosorae.thingsflow.domain.use_case
 
+import android.util.Log
+import com.nosorae.thingsflow.common.Constants.LOG_TAG
 import com.nosorae.thingsflow.common.Resource
 import com.nosorae.thingsflow.data.remote.dto.toIssue
 import com.nosorae.thingsflow.domain.model.Issue
@@ -10,23 +12,25 @@ import java.io.IOException
 import javax.inject.Inject
 
 class GetIssuesUseCase @Inject constructor(
-    private val repository: RemoteIssueRepository
+    private val repository: RemoteIssueRepository,
 ) {
     operator fun invoke(org: String, repo: String) = flow<Resource<List<Issue>>> {
         try {
             emit(Resource.Loading())
-            val issues = repository
-                .getIssues(
-                    org = org,
-                    repo = repo
-                )
-                .map { dto ->
-                    dto.toIssue()
-                }
-            emit(Resource.Success(issues))
+
+            val issues = repository.getIssues(
+                org = org,
+                repo = repo
+            )
+            Log.e(LOG_TAG, "$issues" )
+            emit(Resource.Success(issues.map { dto ->
+                dto.toIssue()
+            }))
         } catch (e: HttpException) {
+            Log.e(LOG_TAG, "HttpException ${e.localizedMessage}" )
             emit(Resource.Error(message = e.localizedMessage ?: "예상치 못한 에러 발생"))
         } catch (e: IOException) {
+            Log.e(LOG_TAG, "IOException" )
             emit(Resource.Error(message = "서버와 연결이 되지 않습니다. 인터넷 연결을 확인해 주세요"))
         }
     }

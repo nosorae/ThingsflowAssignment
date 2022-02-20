@@ -2,6 +2,7 @@ package com.nosorae.thingsflow.data.remote.dto
 
 
 import com.google.gson.annotations.SerializedName
+import com.nosorae.thingsflow.common.NotFoundError
 import com.nosorae.thingsflow.domain.model.Issue
 
 data class IssueDto(
@@ -60,7 +61,11 @@ data class IssueDto(
     @SerializedName("url")
     val url: String,
     @SerializedName("user")
-    val user: User
+    val user: User,
+    @SerializedName("message")
+    val message: String? = null,
+    @SerializedName("documentation_url")
+    val documentation_url: String? = null
 )
 
 
@@ -73,3 +78,4 @@ fun IssueDto.toIssue(): Issue {
         login = user.login
     )
 }
+
