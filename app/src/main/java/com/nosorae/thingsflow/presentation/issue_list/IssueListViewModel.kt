@@ -1,11 +1,14 @@
 package com.nosorae.thingsflow.presentation.issue_list
 
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nosorae.thingsflow.common.Constants.LOG_TAG
+import com.nosorae.thingsflow.common.Constants.PREF_ORG
+import com.nosorae.thingsflow.common.Constants.PREF_REPO
 import com.nosorae.thingsflow.common.Resource
 import com.nosorae.thingsflow.common.SingleLiveData
 import com.nosorae.thingsflow.domain.model.Issue
@@ -24,11 +27,12 @@ class IssueListViewModel @Inject constructor(
     private val getIssuesUseCase: GetIssuesUseCase,
     private val insertIssuesUseCase: InsertIssuesUseCase,
     private val loadIssuesUseCase: LoadIssuesUseCase,
-    private val deleteIssuesUseCase: DeleteIssuesUseCase
+    private val deleteIssuesUseCase: DeleteIssuesUseCase,
+    private val pref: SharedPreferences
 ): ViewModel() {
 
-    private val _issues = MutableLiveData<List<Issue>>(emptyList())
-    val issues: LiveData<List<Issue>> get() = _issues
+    private val _issues = SingleLiveData<List<Issue>>()
+    val issues: SingleLiveData<List<Issue>> get() = _issues
 
     private val _errorMessage = SingleLiveData<String>()
     val errorMessage: SingleLiveData<String> get() = _errorMessage
@@ -41,7 +45,8 @@ class IssueListViewModel @Inject constructor(
 
 
     init {
-        loadIssues()
+        lastOrg = pref.getString(PREF_ORG, "Search by org").toString()
+        lastRepo = pref.getString(PREF_REPO, "repo").toString()
     }
 
     fun getIssues(org: String, repo: String) {
@@ -64,9 +69,11 @@ class IssueListViewModel @Inject constructor(
             }.launchIn(viewModelScope)
     }
 
-
-    fun insertIssues(issues: List<Issue>) {
-        insertIssuesUseCase(issues).launchIn(viewModelScope)
+    fun clearAndInsertIssues(issues: List<Issue>) {
+        viewModelScope.launch {
+            //deleteIssuesUseCase()
+            insertIssuesUseCase(issues)
+        }
     }
 
     fun loadIssues() {
@@ -75,11 +82,14 @@ class IssueListViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun deleteIssues() {
-        viewModelScope.launch {
-            deleteIssuesUseCase()
-        }
+
+    fun savePrefString(key: String, value: String) {
+        pref.edit()
+            .putString(key, value)
+            .apply()
     }
+
+
 
 
 

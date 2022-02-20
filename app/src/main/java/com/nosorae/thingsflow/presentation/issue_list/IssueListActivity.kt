@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nosorae.thingsflow.R
 import com.nosorae.thingsflow.common.Constants.PARAM_ISSUE_MODEL
+import com.nosorae.thingsflow.common.Constants.PREF_REPO
 import com.nosorae.thingsflow.common.Constants.THINGS_FLOW_HOME_PAGE_URL
 import com.nosorae.thingsflow.databinding.ActivityIssueListBinding
 import com.nosorae.thingsflow.domain.model.Issue
@@ -31,7 +32,9 @@ class IssueListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityIssueListBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        title = getString(R.string.app_name)
+
+
+        initTexts()
 
         initRecyclerView()
         initSearchTextView()
@@ -39,6 +42,11 @@ class IssueListActivity : AppCompatActivity() {
         observeIssuesData()
         observeErrorData()
         observeCachedIssuesData()
+    }
+
+    private fun initTexts() {
+        title = getString(R.string.app_name)
+        binding.tvSearch.text = "${viewModel.lastOrg}/${viewModel.lastRepo}"
     }
 
     //--------------------------------------------------------------------
@@ -59,8 +67,7 @@ class IssueListActivity : AppCompatActivity() {
     private fun showSearchInputDialogFragment() {
         SearchInputDialogFragment { org, repo ->
             viewModel.run {
-                lastOrg = org
-                lastRepo = repo // TODO 프레퍼런스로 대체할 것
+                viewModel.savePrefString(PREF_REPO, repo)
                 getIssues(org, repo)
             }
         }.show(supportFragmentManager, null)
@@ -71,12 +78,10 @@ class IssueListActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun observeIssuesData() {
         viewModel.issues.observe(this) { issues ->
-            binding.tvSearch.text = "${viewModel.lastOrg}/${viewModel.lastRepo}" // TODO 프레퍼런스로 대체할 것
             rvAdapter.clear()
             handleIssues(issues)
-
-            viewModel.deleteIssues()
-            viewModel.insertIssues(issues)
+            viewModel.clearAndInsertIssues(issues)
+            //viewModel.insertIssues(issues)
         }
     }
 
@@ -136,6 +141,8 @@ class IssueListActivity : AppCompatActivity() {
     private fun observeErrorData() {
         viewModel.errorMessage.observe(this) { message ->
             showErrorMessageDialog(message) // 인터넷이 안 될때의 에러메시지도 함께 가고 있습니다.
+            rvAdapter.clear()
+            viewModel.loadIssues()
         }
     }
 

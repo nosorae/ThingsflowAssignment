@@ -1,9 +1,12 @@
 package com.nosorae.thingsflow.di
 
 import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.room.Room
 import com.nosorae.thingsflow.common.Constants.BASE_URL
 import com.nosorae.thingsflow.common.Constants.DATABASE_NAME
+import com.nosorae.thingsflow.common.Constants.PREF_NAME
 import com.nosorae.thingsflow.data.local.IssueDatabase
 import com.nosorae.thingsflow.data.remote.IssueApi
 import com.nosorae.thingsflow.data.repository.LocalIssueRepositoryImpl
@@ -89,6 +92,13 @@ object AppModule {
     @Singleton
     fun provideDeleteIssues(repository: LocalIssueRepository): DeleteIssuesUseCase {
         return DeleteIssuesUseCase(repository)
+    }
+
+
+    @Provides
+    @Singleton
+    fun providePreferences(app: Application): SharedPreferences {
+        return app.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
     }
 
 
